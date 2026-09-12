@@ -25,7 +25,6 @@ deps:
 	echo "*.backloop.dev" > deps/commonName.txt
 	mkdir -p Zsign
 	echo "MIT License" > Zsign/LICENSE_LC || true
-	sed -i '' 's/name: "Zsign",/name: "Zsign",\n\t\t.library(name: "ZsignSwift", targets: ["Zsign"]),/' Zsign/Package.swift 2>/dev/null || true
 
 $(SCHEMES): deps
 	xcodebuild \
