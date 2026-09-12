@@ -25,6 +25,7 @@ deps:
 	echo "*.backloop.dev" > deps/commonName.txt
 	mkdir -p Zsign
 	echo "MIT License" > Zsign/LICENSE_LC || true
+	python3 scripts/patch_zsign.py || true
 
 $(SCHEMES): deps
 	xcodebuild \
