@@ -1,0 +1,30 @@
+{
+    "name": "HighSign Repository",
+    "identifier": "com.highsign.repo",
+    "subtitle": "Kho ứng dụng HighSign",
+    "description": "Nguồn phân phối HighSign chính thức cho AltStore / Scarlet",
+    "website": "https://github.com/okphong582-png/hb",
+    "tintColor": "0095ff",
+    "apps": [
+        {
+            "name": "HighSign",
+            "bundleIdentifier": "com.highsign.com",
+            "developerName": "HighSign Team",
+            "localizedDescription": "Trình ký ứng dụng iOS siêu tốc, hỗ trợ server localhost nội bộ và tối ưu hóa bộ nhớ chuyên sâu.",
+            "subtitle": "Ký siêu tốc • Tối ưu bộ nhớ máy",
+            "tintColor": "0095ff",
+            "category": "utilities",
+            "versions": [
+                {
+                    "downloadURL": "https://github.com/okphong582-png/hb/releases/latest/download/HighSign.ipa",
+                    "size": 15000000,
+                    "version": "1.6",
+                    "buildVersion": "1",
+                    "date": "2026-09-13T01:00:00+07:00",
+                    "localizedDescription": "HighSign v1.6 - Ultra Speed Edition:\n- Ký siêu tốc chỉ 1-2 giây\n- Mặc định 100% server localhost\n- Tự động dọn dẹp file tạm tối ưu máy\n- Giao diện và logo HighSign mới",
+                    "minOSVersion": "16.0"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+name: Build HighSign IPA
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build HighSign IPA
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Select Xcode Version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer || sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer || xcode-select -p
+
+      - name: Build HighSign IPA
+        run: |
+          make
+
+      - name: Upload HighSign IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HighSign-IPA
+          path: packages/HighSign.ipa
+          if-no-files-found: error
+
+      - name: Create Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --cleanup-tag -y 2>/dev/null || true
+          gh release create latest "packages/HighSign.ipa" \
+            --title "HighSign v1.6 - Ultra Speed Edition" \
+            --notes "### HighSign v1.6 - Ultra Speed Edition\n\n- 🚀 **Ký siêu tốc**: Tối ưu tốc độ ký và đóng gói IPA chỉ 1-2 giây.\n- 🔒 **Server Localhost**: 100% server nội bộ, không cần server ngoài.\n- 🧹 **Tối ưu & Dọn dẹp**: Tự động dọn dẹp file tạm, giải phóng bộ nhớ máy tối đa.\n- 🎨 **Giao diện mới**: Logo HighSign và bố cục hiện đại." \
+            --target ${{ github.sha }} || echo "Release step completed or skipped"
