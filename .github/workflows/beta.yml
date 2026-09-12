@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Build HighSign IPA
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Checkout Code
@@ -19,7 +19,12 @@ jobs:
 
       - name: Select Xcode Version
         run: |
-          sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer || sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer || xcode-select -p
+          XCODE_APP=$(find /Applications -maxdepth 1 -name "Xcode_16*.app" 2>/dev/null | sort -V | tail -n 1)
+          if [ -n "$XCODE_APP" ]; then
+            echo "Selected Xcode: $XCODE_APP"
+            sudo xcode-select -s "$XCODE_APP/Contents/Developer"
+          fi
+          xcodebuild -version
 
       - name: Build HighSign IPA
         run: |

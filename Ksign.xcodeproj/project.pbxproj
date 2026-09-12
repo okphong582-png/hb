@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -217,6 +217,7 @@
 				};
 			};
 			buildConfigurationList = 3379C1B42DA869A1004372DA /* Build configuration list for PBXProject "Ksign" */;
+			compatibilityVersion = "Xcode 16.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
