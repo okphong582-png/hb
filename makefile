@@ -23,6 +23,8 @@ deps:
 	cat deps/server.key1 deps/server.key2 > deps/server.pem 2>/dev/null || true
 	rm -f deps/server.key1 deps/server.key2
 	echo "*.backloop.dev" > deps/commonName.txt
+	mkdir -p Zsign
+	echo "MIT License" > Zsign/LICENSE_LC || true
 
 $(SCHEMES): deps
 	xcodebuild \

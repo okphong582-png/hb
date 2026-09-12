@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build HighSign IPA
     runs-on: macos-15
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Code
@@ -28,6 +30,8 @@ jobs:
 
       - name: Build HighSign IPA
         run: |
+          mkdir -p Zsign
+          echo "MIT License" > Zsign/LICENSE_LC || true
           make
 
       - name: Upload HighSign IPA Artifact

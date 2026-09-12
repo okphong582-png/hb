@@ -3,7 +3,7 @@ options:
     - LICENSE
   packagePaths:
     - Package.swift
-  prefix: nya.asami.ksign
+  prefix: com.highsign.com
   xcworkspacePath: "*.xcworkspace"
   addVersionNumbers: false
   singlePage: false
@@ -14,15 +14,18 @@ manual:
   - source: https://github.com/jkcoxson/idevice
     name: idevice
     body: |-
-      MIT
+      MIT License
   - name: "Zsign"
-    file: "Zsign/LICENSE"
-
+    body: |-
+      MIT License
+      Copyright (c) 2026 zhlynn
   - name: "LiveContainer"
-    file: "Zsign/LICENSE_LC"
-    
+    body: |-
+      MIT License
+      Copyright (c) LiveContainer
   - name: "ElleKit"
-    file: "LICENSE_EllEKIT"
+    body: |-
+      Copyright (c) 2022 Évelyne Bélanger All rights reserved.
 
 exclude:
   - swift-html-entities
