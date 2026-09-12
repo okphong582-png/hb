@@ -35,6 +35,11 @@ if os.path.exists(zsign_mm_src):
         "\tcompletionHandler(bRet);",
         "\tif (completionHandler) {\n\t\tcompletionHandler(bRet);\n\t}"
     )
+    # Fix SignFolder 11-arguments signature: add missing arrDisDylibFiles
+    zmm = zmm.replace(
+        "bundle.SignFolder(&zsa, strFolder, strBundleId, strBundleVersion, strDisplayName, arrDylibFiles, bForce, bWeakInject, bEnableCache, excludeprovion);",
+        "bundle.SignFolder(&zsa, strFolder, strBundleId, strBundleVersion, strDisplayName, arrDylibFiles, arrDisDylibFiles, bForce, bWeakInject, bEnableCache, excludeprovion);"
+    )
     with open(zsign_mm_dst, "w", encoding="utf-8") as f:
         f.write(zmm)
     print("Patched and copied zsign.mm to src/zsign.mm")
