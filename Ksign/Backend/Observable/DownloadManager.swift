@@ -70,12 +70,10 @@ class DownloadManager: NSObject, ObservableObject {
     private var _session: URLSession!
     
     private func _updateBackgroundAudioState() {
-        if #unavailable(iOS 26.0){
-            if !downloads.isEmpty {
-                BackgroundAudioManager.shared.start()
-            } else  {
-                BackgroundAudioManager.shared.stop()
-            }
+        if !downloads.isEmpty {
+            BackgroundAudioManager.shared.start()
+        } else {
+            BackgroundAudioManager.shared.stop()
         }
     }
     
@@ -101,11 +99,7 @@ class DownloadManager: NSObject, ObservableObject {
         task.resume()
         
         downloads.append(download)
-		if #available(iOS 26.0, *) {
-			BackgroundTaskManager.shared.startTask(for: id, filename: url.lastPathComponent)
-		} else {
-			_updateBackgroundAudioState()
-		}
+        _updateBackgroundAudioState()
         return download
     }
 	
@@ -139,9 +133,6 @@ class DownloadManager: NSObject, ObservableObject {
         if let index = downloads.firstIndex(where: { $0.id == download.id }) {
             downloads.remove(at: index)
             _updateBackgroundAudioState()
-            if #available(iOS 26.0, *) {
-                BackgroundTaskManager.shared.stopTask(for: download.id, success: false)
-            }
         }
     }
     
@@ -248,9 +239,6 @@ extension DownloadManager: URLSessionDownloadDelegate {
 			: 0
             download.bytesDownloaded = totalBytesWritten
             download.totalBytes = totalBytesExpectedToWrite
-            if #available(iOS 26.0, *) {
-                BackgroundTaskManager.shared.updateProgress(for: download.id, progress: download.overallProgress)
-            }
         }
     }
     

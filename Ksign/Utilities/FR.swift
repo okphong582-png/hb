@@ -11,6 +11,7 @@ import Zsign
 import NimbleJSON
 import AltSourceKit
 import IDeviceSwift
+import Security
 
 enum FR {
 	static func handlePackageFile(
@@ -106,17 +107,11 @@ enum FR {
 		with password: String,
 		using provision: URL
 	) -> Bool {
-		defer {
-			password_check_fix_WHAT_THE_FUCK_free(provision.path)
-		}
-		
-		password_check_fix_WHAT_THE_FUCK(provision.path)
-		
-		if (!p12_password_check(key.path, password)) {
-			return false
-		}
-		
-		return true
+		guard let p12Data = try? Data(contentsOf: key) else { return false }
+		let options: [String: Any] = [kSecImportExportPassphrase as String: password]
+		var items: CFArray?
+		let status = SecPKCS12Import(p12Data as CFData, options as CFDictionary, &items)
+		return status == errSecSuccess
 	}
 	
 	static func checkPasswordForCertificateData(
@@ -124,24 +119,10 @@ enum FR {
 		provisionData: Data,
 		password: String
 	) -> Bool {
-		let tempDir = FileManager.default.temporaryDirectory
-		let tempP12 = tempDir.appendingPathComponent("temp_cert.p12")
-		let tempProvision = tempDir.appendingPathComponent("temp_provision.mobileprovision")
-		
-		defer {
-			try? FileManager.default.removeItem(at: tempP12)
-			try? FileManager.default.removeItem(at: tempProvision)
-		}
-		
-		do {
-			try p12Data.write(to: tempP12)
-			try provisionData.write(to: tempProvision)
-			
-			return checkPasswordForCertificate(for: tempP12, with: password, using: tempProvision)
-		} catch {
-			print("Error creating temporary files for password check: \(error)")
-			return false
-		}
+		let options: [String: Any] = [kSecImportExportPassphrase as String: password]
+		var items: CFArray?
+		let status = SecPKCS12Import(p12Data as CFData, options as CFDictionary, &items)
+		return status == errSecSuccess
 	}
 	
 	static func movePairing(_ url: URL) {
